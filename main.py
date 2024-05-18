@@ -14,7 +14,7 @@ movie_parser = MovieParser(API_KEY)
 staff_parser = StaffParser(API_KEY)
 
 # создал директорию для хранения файлов csv
-os.makedirs('data1/', exist_ok=True)
+os.makedirs('data/', exist_ok=True)
 
 films_df = pd.DataFrame()
 persons_df = pd.DataFrame()
