@@ -56,11 +56,11 @@ for film_id in range(300, 302):
 # Закрываем соединение с Neo4j
 neo4j.close()
 
-films_df.to_csv('data/films.csv', index=0)
-persons_df.to_csv('data/persons.csv', index=0)
+# films_df.to_csv('data/films.csv', index=0)
+# persons_df.to_csv('data/persons.csv', index=0)
 
 # объединяю файлы в один, фиксю возрастные ограничения
 df = persons_df.merge(films_df, how='left', left_on='film_id', right_on='filmId', )
 df.drop(columns='filmId', inplace=True)
 df['ratingAgeLimits'] = df['ratingAgeLimits'].str.replace('age', '').astype(int)
-df.to_csv('data/agg_data.csv', index=0) ####
+df.to_csv('data/agg_data.csv', index=0)
