@@ -63,4 +63,4 @@ persons_df.to_csv('data/persons.csv', index=0)
 df = persons_df.merge(films_df, how='left', left_on='film_id', right_on='filmId', )
 df.drop(columns='filmId', inplace=True)
 df['ratingAgeLimits'] = df['ratingAgeLimits'].str.replace('age', '').astype(int)
-df.to_csv('data/agg_data.csv', index=0)
+df.to_csv('data/agg_data.csv', index=0) ####
