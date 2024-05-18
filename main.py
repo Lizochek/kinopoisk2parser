@@ -6,7 +6,7 @@ import requests
 import os
 
 # API-ключ для Кинопоиска
-API_KEY = 'c6d5218b-d822-4f5f-850f-4b74b69d0499'
+API_KEY = '62b2be73-aae3-4751-a556-742d02d31d96'
 
 # Создаем объекты для работы с Neo4j и парсинга данных
 neo4j = Neo4jService("neo4j+s://fe436181.databases.neo4j.io", "neo4j", "OdAJh2sqkZNTfyzYKo2bmgmf3RMv-mc4Dbyr53f9WB4")
@@ -19,7 +19,7 @@ os.makedirs('data/', exist_ok=True)
 films_df = pd.DataFrame()
 persons_df = pd.DataFrame()
 # Обрабатываем фильмы с id от 356 до 500
-for film_id in range(303, 304):
+for film_id in range(300, 555):
     try:
         # Получаем и обрабатываем данные о фильме
         film = movie_parser.get_film_by_id(film_id)
@@ -45,7 +45,7 @@ for film_id in range(303, 304):
             neo4j.add_person(parsed_person['name'], parsed_person['profession'])
 
             # Добавляем связь между членом съемочной группы и фильмом в Neo4j
-            neo4j.add_relationship(parsed_person['name'], parsed_film['title'], parsed_person['name'], parsed_person['profession'])
+            neo4j.add_relationship(parsed_person['name'], parsed_film['title'], parsed_person['profession2'], parsed_person['description'])
 
         print("------")
     except requests.exceptions.HTTPError as err:
