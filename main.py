@@ -6,7 +6,7 @@ import requests
 import os
 
 # API-ключ для Кинопоиска
-API_KEY = '9aa82908-75d6-49a4-b8d5-7d1c82c592ec'
+API_KEY = 'c6d5218b-d822-4f5f-850f-4b74b69d0499'
 
 # Создаем объекты для работы с Neo4j и парсинга данных
 neo4j = Neo4jService("neo4j+s://fe436181.databases.neo4j.io", "neo4j", "OdAJh2sqkZNTfyzYKo2bmgmf3RMv-mc4Dbyr53f9WB4")
@@ -19,7 +19,7 @@ os.makedirs('data/', exist_ok=True)
 films_df = pd.DataFrame()
 persons_df = pd.DataFrame()
 # Обрабатываем фильмы с id от 356 до 500
-for film_id in range(311, 313):
+for film_id in range(300, 302):
     try:
         # Получаем и обрабатываем данные о фильме
         film = movie_parser.get_film_by_id(film_id)
@@ -33,7 +33,7 @@ for film_id in range(311, 313):
         #neo4j.add_movie(parsed_film['title'])
         # Получаем и обрабатываем данные о съемочной группе
         staff = staff_parser.get_staff_by_film_id(parsed_film['filmId'])
-        for person in staff:
+        for person in staff[:6]:
             parsed_person = staff_parser.parse_staff_data(person)
             print(f"Staff: {parsed_person}")
 
@@ -58,3 +58,9 @@ neo4j.close()
 
 films_df.to_csv('data/films.csv', index=0)
 persons_df.to_csv('data/persons.csv', index=0)
+
+# объединяю файлы в один, фиксю возрастные ограничения
+df = persons_df.merge(films_df, how='left', left_on='film_id', right_on='filmId', )
+df.drop(columns='filmId', inplace=True)
+df['ratingAgeLimits'] = df['ratingAgeLimits'].str.replace('age', '').astype(int)
+df.to_csv('data/agg_data.csv', index=0)
