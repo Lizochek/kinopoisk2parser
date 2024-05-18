@@ -28,5 +28,7 @@ class StaffParser:
         parsed = {
             'name': staff['nameRu'],
             'profession': staff['professionText'],
+            # 'profession2': staff['professionKey'],
+            # 'description': staff['description']
         }
         return parsed

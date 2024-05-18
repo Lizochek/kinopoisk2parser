@@ -19,7 +19,7 @@ os.makedirs('data/', exist_ok=True)
 films_df = pd.DataFrame()
 persons_df = pd.DataFrame()
 # Обрабатываем фильмы с id от 356 до 500
-for film_id in range(300, 302):
+for film_id in range(303, 304):
     try:
         # Получаем и обрабатываем данные о фильме
         film = movie_parser.get_film_by_id(film_id)
@@ -30,7 +30,7 @@ for film_id in range(300, 302):
         films_df = pd.concat([films_df,pd.DataFrame(parsed_film, index=[0])], ignore_index=True)
 
         # Добавляем фильм в Neo4j
-        #neo4j.add_movie(parsed_film['title'])
+        neo4j.add_movie(parsed_film['title'])
         # Получаем и обрабатываем данные о съемочной группе
         staff = staff_parser.get_staff_by_film_id(parsed_film['filmId'])
         for person in staff[:6]:
@@ -42,10 +42,10 @@ for film_id in range(300, 302):
                                    ignore_index=True)
 
             # Добавляем члена съемочной группы в Neo4j
-            #neo4j.add_person(parsed_person['name'], parsed_person['profession'])
+            neo4j.add_person(parsed_person['name'], parsed_person['profession'])
 
             # Добавляем связь между членом съемочной группы и фильмом в Neo4j
-            #neo4j.add_relationship(parsed_person['name'], parsed_film['title'], parsed_person['profession2'], parsed_person['description'])
+            neo4j.add_relationship(parsed_person['name'], parsed_film['title'], parsed_person['name'], parsed_person['profession'])
 
         print("------")
     except requests.exceptions.HTTPError as err:
