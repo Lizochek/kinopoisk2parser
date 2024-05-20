@@ -27,10 +27,12 @@ class MovieParser:
         parsed = {
             'filmId': film['kinopoiskId'],
             'title': film['nameRu'],
+            'reviewsCount': film['reviewsCount'],
             'year': film['year'],
             'country': film["countries"][0]["country"],
             'genre': film["genres"][0]["genre"],
             'rating': film['ratingKinopoisk'],
-            'ratingAgeLimits': film['ratingAgeLimits']
+            'voteCount': film['ratingKinopoiskVoteCount'],
+            'ratingAgeLimits': film['ratingAgeLimits'][3:]
         }
         return parsed

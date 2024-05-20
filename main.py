@@ -6,7 +6,7 @@ import requests
 import os
 
 # API-ключ для Кинопоиска
-API_KEY = '4d0f3d9f-bc9e-4925-a83c-b756b395e4fc'
+API_KEY = '10b8f688-5e8f-46a1-84f9-2cfad486efd8'
 
 # Создаем объекты для работы с Neo4j и парсинга данных
 neo4j = Neo4jService("neo4j+s://fe436181.databases.neo4j.io", "neo4j", "OdAJh2sqkZNTfyzYKo2bmgmf3RMv-mc4Dbyr53f9WB4")
@@ -19,7 +19,7 @@ os.makedirs('data/', exist_ok=True)
 films_df = pd.DataFrame()
 persons_df = pd.DataFrame()
 # Обрабатываем фильмы с id от 356 до 500
-for film_id in range(490, 590):
+for film_id in range(700, 701):
     try:
         # Получаем и обрабатываем данные о фильме
         film = movie_parser.get_film_by_id(film_id)
@@ -30,7 +30,8 @@ for film_id in range(490, 590):
         films_df = pd.concat([films_df,pd.DataFrame(parsed_film, index=[0])], ignore_index=True)
 
         # Добавляем фильм в Neo4j
-        neo4j.add_movie(parsed_film['title'])
+        # neo4j.add_movie(parsed_film['title'])
+
         # Получаем и обрабатываем данные о съемочной группе
         staff = staff_parser.get_staff_by_film_id(parsed_film['filmId'])
         for person in staff[:6]:
@@ -42,10 +43,10 @@ for film_id in range(490, 590):
                                    ignore_index=True)
 
             # Добавляем члена съемочной группы в Neo4j
-            neo4j.add_person(parsed_person['name'], parsed_person['profession'])
+            # neo4j.add_person(parsed_person['name'], parsed_person['profession'])
 
             # Добавляем связь между членом съемочной группы и фильмом в Neo4j
-            neo4j.add_relationship(parsed_person['name'], parsed_film['title'], parsed_person['profession2'], parsed_person['description'])
+            # neo4j.add_relationship(parsed_person['name'], parsed_film['title'], parsed_person['profession2'], parsed_person['description'])
 
         print("------")
     except requests.exceptions.HTTPError as err:
