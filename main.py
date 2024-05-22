@@ -19,7 +19,7 @@ os.makedirs('data/', exist_ok=True)
 films_df = pd.DataFrame()
 persons_df = pd.DataFrame()
 # Обрабатываем фильмы с id от 356 до 500
-for film_id in range(700, 701):
+for film_id in range(700, 900):
     try:
         # Получаем и обрабатываем данные о фильме
         film = movie_parser.get_film_by_id(film_id)
